@@ -18,7 +18,7 @@ The goals / steps of this project are the following:
 [image_cam_now]: ./camera_cal/calibration4_undist.jpg "Undistorted"
 [image_road]: ./test_images/straight_lines1_rgb_undist.jpg "Road Transformed"
 [image_binary]: ./test_images/straight_lines1_binary.jpg "Binary Example"
-[image4]: ./examples/warped_straight_lines.jpg "Warp Example"
+[warped]: ./test_images/warped.jpg "Warp Example"
 [image5]: ./examples/color_fit_lines.jpg "Fit Visual"
 [image6]: ./examples/example_output.jpg "Output"
 [video1]: ./project_video.mp4 "Video"
@@ -57,33 +57,19 @@ To extract lane gradients robustly, we combine the x-directional sobel gradient-
 
 #### 3. Describe how (and identify where in your code) you performed a perspective transform and provide an example of a transformed image.
 
-The code for my perspective transform includes a function called `warper()`, which appears in lines 1 through 8 in the file `example.py` (output_images/examples/example.py) (or, for example, in the 3rd code cell of the IPython notebook).  The `warper()` function takes as inputs an image (`img`), as well as source (`src`) and destination (`dst`) points.  I chose the hardcode the source and destination points in the following manner:
-
-```python
-src = np.float32(
-    [[(img_size[0] / 2) - 55, img_size[1] / 2 + 100],
-    [((img_size[0] / 6) - 10), img_size[1]],
-    [(img_size[0] * 5 / 6) + 60, img_size[1]],
-    [(img_size[0] / 2 + 55), img_size[1] / 2 + 100]])
-dst = np.float32(
-    [[(img_size[0] / 4), 0],
-    [(img_size[0] / 4), img_size[1]],
-    [(img_size[0] * 3 / 4), img_size[1]],
-    [(img_size[0] * 3 / 4), 0]])
-```
-
-This resulted in the following source and destination points:
+The perspective transform computations are done in the cell under the markdown title "test images".
+The source points were chosen to be the corners of trapezoid containing the two lanes and destination points were chosen to contain a sizable rectangle:
 
 | Source        | Destination   | 
 |:-------------:|:-------------:| 
-| 585, 460      | 320, 0        | 
-| 203, 720      | 320, 720      |
-| 1127, 720     | 960, 720      |
-| 695, 460      | 960, 0        |
+| 200, 700      | 300, 720        | 
+| 1080, 700      | 980, 720      |
+| 590, 450     | 300, 0      |
+| 690, 450      | 980, 0 |
 
-I verified that my perspective transform was working as expected by drawing the `src` and `dst` points onto a test image and its warped counterpart to verify that the lines appear parallel in the warped image.
+The image below shows the perspective transform in action -- on the left is the raw image, and on the right is the result of the transform, parallelizing the lanes in the image domain.
 
-![alt text][image4]
+![alt text][warped]
 
 #### 4. Describe how (and identify where in your code) you identified lane-line pixels and fit their positions with a polynomial?
 
@@ -107,7 +93,7 @@ I implemented this step in lines # through # in my code in `yet_another_file.py`
 
 #### 1. Provide a link to your final video output.  Your pipeline should perform reasonably well on the entire project video (wobbly lines are ok but no catastrophic failures that would cause the car to drive off the road!).
 
-Here's a [link to my video result](./project_video.mp4)
+Here's a [link to my video result](./project_video_test.mp4), which for each frame shows estimated lanes, radius of curvature, and relative shift of car from center of road.
 
 ---
 
