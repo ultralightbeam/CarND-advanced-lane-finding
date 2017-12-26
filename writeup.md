@@ -16,8 +16,8 @@ The goals / steps of this project are the following:
 
 [image_cam_bef]: ./camera_cal/calibration4.jpg "Distorted"
 [image_cam_now]: ./camera_cal/calibration4_undist.jpg "Undistorted"
-[image2]: ./test_images/test1.jpg "Road Transformed"
-[image3]: ./examples/binary_combo_example.jpg "Binary Example"
+[image_road]: ./test_images/straight_lines1_rgb_undist.jpg "Road Transformed"
+[image_binary]: ./test_images/straight_lines1_binary.jpg "Binary Example"
 [image4]: ./examples/warped_straight_lines.jpg "Warp Example"
 [image5]: ./examples/color_fit_lines.jpg "Fit Visual"
 [image6]: ./examples/example_output.jpg "Output"
@@ -38,7 +38,7 @@ In order to correct for camera lens distortion, we learn the camera calibration 
 Here is an example of image without calibration.
 ![alt text][image_cam_bef]
 
-After applying the `cv2.calibrateCamera` on the above image with calibrated parameters, we can get rid of lens distortion artifacts such as the curvatures of the board on its edges.
+After applying the `cv2.calibrateCamera` on the above image with calibrated parameters (also grayscaled now), we can get rid of lens distortion artifacts such as the curvatures of the board on its edges.
 ![alt text][image_cam_now]
 
 
@@ -46,14 +46,14 @@ After applying the `cv2.calibrateCamera` on the above image with calibrated para
 
 #### 1. Provide an example of a distortion-corrected image.
 
-To demonstrate this step, I will describe how I apply the distortion correction to one of the test images like this one:
-![alt text][image2]
+Applying the distortion-correcting transform on a test image (straight_lines1.jpg), we get the following result:
+![alt text][image_road]
 
 #### 2. Describe how (and identify where in your code) you used color transforms, gradients or other methods to create a thresholded binary image.  Provide an example of a binary image result.
 
-I used a combination of color and gradient thresholds to generate a binary image (thresholding steps at lines # through # in `another_file.py`).  Here's an example of my output for this step.  (note: this is not actually from one of the test images)
+To extract lane gradients robustly, we combine the x-directional sobel gradient-thresholded binary map, which picks up the near vertical property of lanes, and the s-channel (in HLS channel domain) thresholded binary map, which has good illumination-invariance, using the pixelwise OR operation. Shown below is our binary map of the distortion-corrected straight_lines1 image.
 
-![alt text][image3]
+![alt text][image_binary]
 
 #### 3. Describe how (and identify where in your code) you performed a perspective transform and provide an example of a transformed image.
 
