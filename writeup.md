@@ -19,9 +19,9 @@ The goals / steps of this project are the following:
 [image_road]: ./test_images/straight_lines1_rgb_undist.jpg "Road Transformed"
 [image_binary]: ./test_images/straight_lines1_binary.jpg "Binary Example"
 [warped]: ./test_images/warped.png "Warp Example"
-[image5]: ./examples/color_fit_lines.jpg "Fit Visual"
-[image6]: ./examples/example_output.jpg "Output"
-[video1]: ./project_video.mp4 "Video"
+[warped_thresholded]: ./test_images/warped_thresholded.png "Fit Visual"
+[straight_lines1_fin]: ./test_images/straight_lines1_fin.jpg "Output"
+[video1]: ./project_video_test.mp4 "Video"
 
 ## [Rubric](https://review.udacity.com/#!/rubrics/571/view) Points
 
@@ -73,19 +73,20 @@ The image below shows the perspective transform in action -- on the left is the 
 
 #### 4. Describe how (and identify where in your code) you identified lane-line pixels and fit their positions with a polynomial?
 
-Then I did some other stuff and fit my lane lines with a 2nd order polynomial kinda like this:
+In order to classify lanes in the warped binary map, we use the ascending-windowing approach given in the course lecture. After initializing the two lane positions as the two max peak solutions of the base histogram, we march through the windows and correct the lane positions with the window patches mean pixel location values. The number of windows was chosen to be 9. After identifying the lanes, we fit a 2nd order polynominal on each lane to its understand curvature. A processed image for straight_lines1 is shown below.
 
-![alt text][image5]
+![alt text][warped_thresholded]
 
 #### 5. Describe how (and identify where in your code) you calculated the radius of curvature of the lane and the position of the vehicle with respect to center.
 
-I did this in lines # through # in my code in `my_other_file.py`
+The radius of curvature for each lane was computed using a closed-form expression (given in Measuring Curvature lecture notes) since the first and second derivatives of a second order polynominal are well known. The relative position w.r.t. center was computed by using the 0th order constants of the polynomial fit: (C_left+C_right)/2 - center_position_in_meters.
+
 
 #### 6. Provide an example image of your result plotted back down onto the road such that the lane area is identified clearly.
 
-I implemented this step in lines # through # in my code in `yet_another_file.py` in the function `map_lane()`.  Here is an example of my result on a test image:
+In all, we combine all the steps, apply inverse warp to identified lanes, and visualize the lane area in the original image as shown below. 
 
-![alt text][image6]
+![alt text][straight_lines1_fin]
 
 ---
 
@@ -101,4 +102,4 @@ Here's a [link to my video result](./project_video_test.mp4), which for each fra
 
 #### 1. Briefly discuss any problems / issues you faced in your implementation of this project.  Where will your pipeline likely fail?  What could you do to make it more robust?
 
-Here I'll talk about the approach I took, what techniques I used, what worked and why, where the pipeline might fail and how I might improve it if I were going to pursue this project further.  
+Although the pipeline is somewhat robust to illumination variations, the model does not take obstacles (e.g. other cars, bikes) into account. By concatenating this lane detector with a obstacle detector and adapting the area of trapezoid based on the presence of obstacles, we may be able to obtain real-world lane marking performance.
