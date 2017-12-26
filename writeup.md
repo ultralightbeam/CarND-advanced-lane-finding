@@ -1,8 +1,3 @@
-## Writeup Template
-
-### You can use this file as a template for your writeup if you want to submit it as a markdown file, but feel free to use some other method and submit a pdf if you prefer.
-
----
 
 **Advanced Lane Finding Project**
 
@@ -38,14 +33,12 @@ The goals / steps of this project are the following:
 
 #### 1. Briefly state how you computed the camera matrix and distortion coefficients. Provide an example of a distortion corrected calibration image.
 
-The code for this step is contained in the first code cell of the IPython notebook located in "./examples/example.ipynb" (or in lines # through # of the file called `some_file.py`).  
+In order to correct for camera lens distortion, we learn the camera calibration parameters using 20 checkerboard images taken at different perspectives. Specifically, we first pick out checkerboard corners by applying `cv2.findChessboardCorners` on each image, and using `cv2.calibrateCamera` to learn the map between image corner points and object points, which would be the ground truth points in real space.
 
-I start by preparing "object points", which will be the (x, y, z) coordinates of the chessboard corners in the world. Here I am assuming the chessboard is fixed on the (x, y) plane at z=0, such that the object points are the same for each calibration image.  Thus, `objp` is just a replicated array of coordinates, and `objpoints` will be appended with a copy of it every time I successfully detect all chessboard corners in a test image.  `imgpoints` will be appended with the (x, y) pixel position of each of the corners in the image plane with each successful chessboard detection.  
-
-I then used the output `objpoints` and `imgpoints` to compute the camera calibration and distortion coefficients using the `cv2.calibrateCamera()` function.  I applied this distortion correction to the test image using the `cv2.undistort()` function and obtained this result: 
-
+Here is an example of image without calibration.
 ![alt text][image_cam_bef]
 
+After applying the `cv2.calibrateCamera` on the above image with calibrated parameters, we can get rid of lens distortion artifacts such as the curvatures of the board on its edges.
 ![alt text][image_cam_now]
 
 
