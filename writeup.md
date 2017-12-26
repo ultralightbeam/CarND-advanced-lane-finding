@@ -18,7 +18,7 @@ The goals / steps of this project are the following:
 [image_cam_now]: ./camera_cal/calibration4_undist.jpg "Undistorted"
 [image_road]: ./test_images/straight_lines1_rgb_undist.jpg "Road Transformed"
 [image_binary]: ./test_images/straight_lines1_binary.jpg "Binary Example"
-[warped]: ./test_images/warped.jpg "Warp Example"
+[warped]: ./test_images/warped.png "Warp Example"
 [image5]: ./examples/color_fit_lines.jpg "Fit Visual"
 [image6]: ./examples/example_output.jpg "Output"
 [video1]: ./project_video.mp4 "Video"
